@@ -23,7 +23,7 @@ def matching_basics(sent1, phone):
 	return "%s \n%s\n%s" % (result1, result2, result3)
 
 def match_using_groups(sent2):
-	# Capture in a group any sequence of consecutive digits, then any character after
+	# Capture in a group any sequence of consecutive digits 1 or more, then any character after
 	# for 0 or more, colon, space, second group of any character set of any length
 	match_object = re.search(r"([0-9]+).*: (.*)", sent2)
 	
@@ -47,16 +47,25 @@ def find_and_fix(xml, html):
 
 	return "xml: %s\nhtml: %s \n" % ((result1.group(1) + ": " + result1.group(2)), (result2.group(3)))
 
-# def find_things(text1):
+def get_unique_set_of_characters_in_play(play_text):
+	''' Characters are listed at the beginning, each preceeded by "THE" and the name following in CAPS.
+	'''
+	play_text = open(play_text)
 
-# 	txt = open(text1)
-# 	   for line in txt:
-# 	# 	do stuff
+	characters = []
+
+	for line in play_text:
+		result = re.search(r"^THE ([A-Z]+) ([A-Z]+)", line)
+		if result:
+			characters.append(result.group())
+
+		print line
+	return characters
 
 if __name__ == "__main__":
 	print matching_basics(sent1, phone)
 	print match_using_groups(sent2)
 	print match_url(url)
 	print find_and_fix(xml, html)
-	# find_things("the-little-man-Galsworthy.txt")
+	print get_unique_set_of_characters_in_play("the-little-man-Galsworthy.txt")
 
